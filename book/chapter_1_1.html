@@ -1,0 +1,376 @@
+<!DOCTYPE HTML>
+<html lang="en" class="dark" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Android Architecture</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "dark";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('dark')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><div>Android Security</div></li><li class="chapter-item expanded "><a href="home_0.html">Andr0101100100</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="chapter_1.html">Introduction to Android Security</a></li><li class="chapter-item expanded "><a href="chapter_1_1.html" class="active">Android Architecture</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="android-architecture"><a class="header" href="#android-architecture">Android Architecture</a></h2>
+<blockquote>
+<p>Android is a Linux based OS</p>
+</blockquote>
+<h3 id="noteworthy-api-versions"><a class="header" href="#noteworthy-api-versions">Noteworthy API versions:<br></a></h3>
+<ul>
+<li>Android 4.2 (API level 16) in November 2012 (introduction of SELinux)</li>
+<li>Android 4.3 (API level 18) in July 2013 (SELinux became enabled by default)</li>
+<li>Android 4.4 (API level 19) in October 2013 (several new APIs and ART introduced)</li>
+<li>Android 5.0 (API level 21) in November 2014 (ART used by default and many other features added)</li>
+<li>Android 6.0 (API level 23) in October 2015 (many new features and improvements, including granting;
+detailed permissions setup at runtime rather than all or nothing during installation)</li>
+<li>Android 7.0 (API level 24-25) in August 2016 (new JIT compiler on ART)</li>
+<li>Android 8.0 (API level 26-27) in August 2017 (a lot of security improvements)</li>
+<li>Android 9 (API level 28) in August 2018 (restriction of background usage of mic or camera,
+introduction of lockdown mode, default HTTPS for all apps)</li>
+<li>Android 10 (API level 29) in September 2019 (notification bubbles, project Mainline)</li>
+</ul>
+<h3 id="selinux"><a class="header" href="#selinux">SELinux</a></h3>
+<p>Security-Enhanced Linux (SELinux) uses a Mandatory Access Control (MAC) system to further lock down which processes should have access to which resources. Each resource is given a label in the form of user:role:type:mls_level which defines which users are able to execute which types of actions on it.</p>
+<p>For example, one process may only be able to read a file, while another process may be able to edit or delete the file. This way, by working on a least-privilege principle, vulnerable processes are more difficult to exploit via privilege escalation or lateral movement.</p>
+<blockquote>
+<p>A well know attack path we will follow in general when attacking or researching android security is running the exploits on emulators which are API level 29 or on API level 22, to see the differences in terms of security.</p>
+</blockquote>
+<br>
+<hr />
+<h3 id="the-android-software-stack"><a class="header" href="#the-android-software-stack">The Android software stack</a></h3>
+<p><img src="./The%20Android%20software%20stack.png" alt="The Android software stack" /></p>
+<ul>
+<li>
+<h3 id="linux-kernel"><a class="header" href="#linux-kernel"><span style="color:#FF5607">Linux Kernel</span></a></h3>
+<ul>
+<li>
+<p>Android devices have to support multiple CPU types (ARM, SoC(System on Chips))- 32 and 64-bit</p>
+</li>
+<li>
+<p>Applications are explicitly told which version of the Android Runtime/API version to run on</p>
+<ul>
+<li>
+<p>Android Manifest - minSDK Version <em>(SDK versions determine what versions of the Android OS or the API, our application can run on)</em></p>
+</li>
+<li>
+<p>The higher, the better, BUT developers want to include the most customers possible!</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Lower SDK/Android Versions can have more security vulnerabilities and can allow for different types of attacks on only some devices/emulators</p>
+</li>
+<li>
+<p>Access to the physical components of the Linux device are controlled by drivers</p>
+<ul>
+<li>Bluetooth, Camera, Microphone, Wifi, LTE, Display, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="hardware-abstraction-layer-hal-"><a class="header" href="#hardware-abstraction-layer-hal-"><span style="color:#00C9CC">Hardware Abstraction Layer (HAL) →</span></a></h3>
+<blockquote>
+<p>This layer allows an application irrespective of the device manufacturer, irrespective of components inside of it, to access things in generic categories like the camera, microphone, bluetooth, location, touch drivers, etc,.</p>
+</blockquote>
+<ul>
+<li>
+<p>Abstraction layer that allows applications to access hardware components irrespective of the device manufacturer or type</p>
+<ul>
+<li>Allows applications to simply access "the camera", "the microphone", "the location (GPS)", Bluetooth, the touch drivers without needing specific built-in drivers or manufacturer details</li>
+</ul>
+</li>
+<li>
+<p>New/Upcoming HAL Types:</p>
+<ul>
+<li>
+<p>Automotive - Android Auto, Apple Car Play</p>
+</li>
+<li>
+<p>IoT</p>
+<ul>
+<li>Fitness Watches</li>
+<li>Fitness Devices (peloton, etc.)</li>
+<li>IoT Home devices (Alexa, Google Home, etc.)</li>
+</ul>
+</li>
+<li>
+<p>Gaming Peripherals</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="native-c-vs-android-runtime"><a class="header" href="#native-c-vs-android-runtime"><span style="color:#A87BD9">Native C</span> vs <span style="color:#FDBE00">Android Runtime</span></a></h3>
+</li>
+<li>
+<p>C and C++ is the device's native language</p>
+<ul>
+<li>Does not require a VM</li>
+<li>Webkit - built in web browser for the app (iFrame)</li>
+<li>OpenMAX AL, OpenGL ES - UI frameworks for 2D/3D models</li>
+</ul>
+</li>
+<li>
+<p>Java is often easier to code in, meaning that most developers prefer this</p>
+<ul>
+<li>Older apps built in Java, newer ones often built in Kotlin</li>
+<li>In 2019 Google announced Kotlin will be the preferred coding standard</li>
+<li>Kotlin is utilized by approximately 60% of app developers for Android</li>
+<li>https://developer.android.com/kotlin</li>
+</ul>
+</li>
+<li>
+<h3 id="java-api-framework"><a class="header" href="#java-api-framework"><span style="color:#8BC34A">Java API Framework</span></a></h3>
+<ul>
+<li>
+<p>This is often what allows you app to interact with other apps, and also the device itself as defined in the Android app</p>
+</li>
+<li>
+<p>Content Providers - a way of sharing data to other applications via a specific directory (if exported)</p>
+<ul>
+<li>content://<app-URI>/directory → <code>This is looked for in our Static analysis to see if our application is sharing any data</code></li>
+</ul>
+</li>
+<li>
+<p>View System - utilized for making the App's UI and normalizing it</p>
+</li>
+<li>
+<p>Managers:</p>
+<ul>
+<li>Manages and runs things like:
+<ul>
+<li>Notifications - app pop-ups for reminders</li>
+<li>Telephony - receiving/making calls, and opening contacts</li>
+<li>Package - managing the application package, looking for updates, ensuring integrity</li>
+<li>Location - manager of location services</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="system-applications-layer"><a class="header" href="#system-applications-layer"><span style="color:#00BCD4">System Applications Layer</span></a></h3>
+<ul>
+<li>The pre-installed applications on the Android Phone
+<ul>
+<li>Contacts, Phone, System Settings, Text Message Apps, Camera, System Monitor, Calendar</li>
+<li>Google Applications</li>
+<li>Vendor Specific Apps</li>
+<li>Great thing about Android is you can always set a new default app to replace the vendor-supplied or system app</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
